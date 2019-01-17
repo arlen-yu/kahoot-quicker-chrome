@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "Kahoot, Quicker",
+  "description": "Play Kahoot Quicker",
+  "version": "1",
+  "author": "Arlen Yu",
+  "browser_action": {
+    "default_title": "Kahoot Quicker",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://kahoot.it/*"],
+      "js": ["js/kahoot.js"]
+    }
+  ]
+}
