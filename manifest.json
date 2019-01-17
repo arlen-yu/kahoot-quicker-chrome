@@ -5,8 +5,7 @@
   "version": "1",
   "author": "Arlen Yu",
   "browser_action": {
-    "default_title": "Kahoot Quicker",
-    "default_popup": "popup.html"
+    "default_title": "Kahoot Quicker"
   },
   "content_scripts": [
     {

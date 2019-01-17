@@ -24,8 +24,6 @@ function click(color) {
 
 document.documentElement.addEventListener("keyup", function(e) {
   if (window.location.href.includes('gameblock')) {
-    console.log(e)
-    console.log(document.getElementsByTagName('div'))
     if (e.keyCode === 81) {
       click('red')
     } else if (e.keyCode === 87) {
