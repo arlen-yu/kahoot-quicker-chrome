@@ -65,7 +65,7 @@ function checkDOMChange() {
   if (isGameblockPage && !hasModifiedGameBlocks) {
     hasModifiedGameBlocks = true
     modifyButtonIcon()
-  } else if (isGameblockPage) {
+  } else if (!isGameblockPage) {
     hasModifiedGameBlocks = false
   }
   setTimeout(checkDOMChange, 500)
