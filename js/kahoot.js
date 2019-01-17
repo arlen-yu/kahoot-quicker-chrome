@@ -1,37 +1,87 @@
-function build_button_map(all_buttons) {
-  const colors_to_button = {}
+const RED = 'RED'
+const BLUE = 'BLUE'
+const GREEN = 'GREEN'
+const YELLOW = 'YELLOW'
+
+const COLOR_TO_KEY = {
+  [RED]: 81,
+  [BLUE]: 87,
+  [YELLOW]: 69,
+  [GREEN]: 82
+}
+
+const COLOR_TO_KEY_SANITIZED = {
+  [RED]: 'Q',
+  [BLUE]: 'W',
+  [YELLOW]: 'E',
+  [GREEN]: 'R'
+}
+
+let hasModifiedGameBlocks = false
+
+function fetchColorMap() {
+  const iframe = document.getElementById('gameBlockIframe')
+  const innerFrame = iframe.contentDocument || iframe.contentWindow.document
+  const all_buttons = innerFrame.getElementsByTagName('button')
+  const colorMap = {}
   for (i = 0; i < all_buttons.length; i++) {
     const element = all_buttons[i]
     if (element.className.includes('triangle')) {
-      colors_to_button['red'] = element
+      colorMap[RED] = element
     } else if (element.className.includes('diamond')) {
-      colors_to_button['blue'] = element
+      colorMap[BLUE] = element
     } else if (element.className.includes('circle')) {
-      colors_to_button['yellow'] = element
+      colorMap[YELLOW] = element
     } else if (element.className.includes('square')) {
-      colors_to_button['green'] = element
+      colorMap[GREEN] = element
     }
   }
-  return colors_to_button
+  return colorMap
 }
 
 function click(color) {
-  const iframe = document.getElementById('gameBlockIframe')
-  const inner_iframe = iframe.contentDocument || iframe.contentWindow.document
-  const colors_to_button = build_button_map(inner_iframe.getElementsByTagName('button'))
-  colors_to_button[color].click()
+  const button = fetchColorMap()[color]
+  if (button) {
+    button.click()
+  } else {
+    console.log('Invalid color: ${color}')
+  }
+}
+
+function modifyButtonIcon() {
+  const colorMap = fetchColorMap()
+  for (const [key, value] of Object.entries(colorMap)) {
+    const span = document.createElement('span')
+    span.setAttribute('style', 'color: white; font-weight: bold; font-size: 50px')
+    span.appendChild(document.createTextNode(COLOR_TO_KEY_SANITIZED[key]))
+    value.replaceChild(span, value.childNodes[0])
+  } 
+}
+
+// Shitty way to check for DOM changes
+// Don't want to have to run a listener in the background since I want things to be as light as possible
+function checkDOMChange() {
+  if (window.location.href.includes('gameblock') && !hasModifiedGameBlocks) {
+    hasModifiedGameBlocks = true
+    modifyButtonIcon()
+  } else {
+    hasModifiedGameBlocks = false
+  }
+  setTimeout(checkDOMChange, 500)
 }
 
 document.documentElement.addEventListener("keyup", function(e) {
   if (window.location.href.includes('gameblock')) {
-    if (e.keyCode === 81) {
-      click('red')
-    } else if (e.keyCode === 87) {
-      click('blue')
-    } else if (e.keyCode === 69) {
-      click('yellow')
-    } else if (e.keyCode === 82) {
-      click('green')
+    if (e.keyCode === COLOR_TO_KEY[RED]) {
+      click(RED)
+    } else if (e.keyCode === COLOR_TO_KEY[BLUE]) {
+      click(BLUE)
+    } else if (e.keyCode === COLOR_TO_KEY[YELLOW]) {
+      click(YELLOW)
+    } else if (e.keyCode === COLOR_TO_KEY[GREEN]) {
+      click(GREEN)
     }
   }
 });
+
+checkDOMChange()

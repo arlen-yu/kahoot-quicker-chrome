@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Kahoot, Quicker",
   "description": "Play Kahoot Quicker",
-  "version": "1",
+  "version": "2",
   "author": "Arlen Yu",
   "browser_action": {
     "default_title": "Kahoot Quicker"
