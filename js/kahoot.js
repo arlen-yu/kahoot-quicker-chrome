@@ -61,10 +61,11 @@ function modifyButtonIcon() {
 // Shitty way to check for DOM changes
 // Don't want to have to run a listener in the background since I want things to be as light as possible
 function checkDOMChange() {
-  if (window.location.href.includes('gameblock') && !hasModifiedGameBlocks) {
+  const isGameblockPage = window.location.href.includes('gameblock')
+  if (isGameblockPage && !hasModifiedGameBlocks) {
     hasModifiedGameBlocks = true
     modifyButtonIcon()
-  } else {
+  } else if (isGameblockPage) {
     hasModifiedGameBlocks = false
   }
   setTimeout(checkDOMChange, 500)
