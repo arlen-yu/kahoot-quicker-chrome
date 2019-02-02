@@ -68,7 +68,7 @@ function checkDOMChange() {
   } else if (!isGameblockPage) {
     hasModifiedGameBlocks = false
   }
-  setTimeout(checkDOMChange, 500)
+  setTimeout(checkDOMChange, 250)
 }
 
 document.documentElement.addEventListener("keyup", function(e) {
